@@ -38,7 +38,7 @@ def send_notification(user, message, delay, recurring):
     time_str = datetime.now().strftime('%H-%M-%S')
 
     # Путь к директории
-    base_path = os.path.join(os.path.expanduser("~"), "OneDrive", "Desktop", "project", "send message")
+    base_path = os.path.join(os.path.expanduser("~"), "OneDrive", "Desktop", "NetNotify", "send message")
     dir_path = os.path.join(base_path, f"{sender}__{receiver}", date_str)
     os.makedirs(dir_path, exist_ok=True)
 
