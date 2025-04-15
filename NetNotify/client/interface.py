@@ -37,9 +37,14 @@ def send_notification(user, message, delay, recurring):
     date_str = datetime.now().strftime('%Y-%m-%d')
     time_str = datetime.now().strftime('%H-%M-%S')
 
-    # Путь к директории
-    base_path = os.path.join(os.path.expanduser("~"), "OneDrive", "Desktop", "NetNotify", "send message")
-    dir_path = os.path.join(base_path, f"{sender}__{receiver}", date_str)
+    # Получаем путь до корня проекта (NetNotify)
+    base_dir = os.path.dirname(os.path.abspath(__file__))  # client/
+    project_root = os.path.abspath(os.path.join(base_dir, "..", ".."))  # NetNotify/
+    send_message_root = os.path.join(project_root, "send message")
+    os.makedirs(send_message_root, exist_ok=True)
+
+    # Создание подкаталогов
+    dir_path = os.path.join(send_message_root, f"{sender}__{receiver}", date_str)
     os.makedirs(dir_path, exist_ok=True)
 
     # Путь к текстовому файлу
@@ -55,7 +60,7 @@ def send_notification(user, message, delay, recurring):
     def enum_windows_callback(hwnd, _):
         if win32gui.IsWindowVisible(hwnd):
             title = win32gui.GetWindowText(hwnd)
-            if file_path in title:
+            if file_path in title or time_str in title:
                 win32gui.SetForegroundWindow(hwnd)
                 win32gui.SetWindowPos(
                     hwnd, win32con.HWND_TOPMOST,
